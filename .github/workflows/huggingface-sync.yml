@@ -1,0 +1,24 @@
+name: Sync to Hugging Face Space
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Hugging Face CLI
+        run: pip install huggingface-hub
+
+      - name: Log in to Hugging Face
+        run: huggingface-cli login --token ${{ secrets.HF_TOKEN }}
+
+      - name: Sync with Hugging Face Space
+        run: |
+          git push https://huggingface.co/${{ secrets.HF_USERNAME }}/YOUR_SPACE_NAME.git main
